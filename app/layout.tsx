@@ -31,7 +31,7 @@ export default function RootLayout({
       >
         <SessionProvider>
           <div className="flex-1">
-            <main className="max-w-7xl mx-auto">{children}</main>
+            <main>{children}</main>
           </div>
         </SessionProvider>
       </body>
