@@ -17,6 +17,14 @@ const PlanSummary: React.FC<PlanSummaryProps> = ({
   const totalCredits = 200; // 假设免费计划总是有200积分
   const pricePerMonth = planType === PlanType.FREE ? 0 : 10; // 假设高级计划每月10元
 
+  const resetDate = new Date(nextResetDate);
+
+  const formattedDate = resetDate.toLocaleDateString("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
       <div className="flex justify-between items-center mb-4">
@@ -45,7 +53,7 @@ const PlanSummary: React.FC<PlanSummaryProps> = ({
         </div>
         <div>
           <p className="text-sm text-gray-500">更新日期</p>
-          <p className="font-medium">{nextResetDate.toLocaleDateString()}</p>
+          <p className="font-medium">{formattedDate}</p>
         </div>
       </div>
 

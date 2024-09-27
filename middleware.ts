@@ -1,18 +1,27 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-//仅保护/app/chatbot及其子路由
-export default auth((req) => {
-  const isAuthenticated = !!req.auth;
-  const isAccessingChatbot = req.nextUrl.pathname.startsWith("/app/chatbot");
+export async function middleware(request: NextRequest) {
+  const path = request.nextUrl.pathname;
 
-  if (isAccessingChatbot && !isAuthenticated) {
-    return NextResponse.redirect(new URL("/login", req.url));
+  if (path === "/chatbot") {
+    const token = await getToken({
+      req: request,
+      secret: process.env.AUTH_SECRET!,
+    });
+
+    // 打印 token
+    // console.log("Token:", JSON.stringify(token, null, 2));
+
+    if (!token) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
-  matcher: ["/app/chatbot/:path*"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
