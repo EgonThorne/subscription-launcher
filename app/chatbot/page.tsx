@@ -1,10 +1,15 @@
 "use client";
 
 import { useChat } from "ai/react";
+import { useSession } from "next-auth/react";
 
 export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const session = useSession();
 
+  if (!session) {
+    return <div>请先登录</div>;
+  }
   return (
     <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
       {messages.map((m) => (

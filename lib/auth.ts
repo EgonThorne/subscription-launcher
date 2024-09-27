@@ -1,21 +1,77 @@
 import NextAuth from "next-auth";
-import GitHub from "next-auth/providers/github";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/db";
+import authConfig from "@/auth.config";
 import { PlanType } from "@prisma/client";
 
+import { DefaultSession } from "next-auth";
+import { DefaultJWT } from "next-auth/jwt";
+
+declare module "next-auth" {
+  interface Session extends DefaultSession {
+    user: {
+      planId: string;
+      planType: PlanType;
+      credits: number;
+      lastResetDate: Date | null;
+      nextResetDate: Date;
+      subscriptionDate: Date | null;
+      isServiceActive: boolean;
+    } & DefaultSession["user"];
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT extends DefaultJWT {
+    planId: string;
+    planType: PlanType;
+    credits: number;
+    lastResetDate: Date | null;
+    nextResetDate: Date;
+    subscriptionDate: Date | null;
+    isServiceActive: boolean;
+  }
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [GitHub],
   adapter: PrismaAdapter(prisma),
+  session: { strategy: "jwt" },
+  ...authConfig,
   pages: {
     signIn: "/login",
   },
+
   callbacks: {
-    session({ session, user }) {
-      session.user.id = user.id;
+    async jwt({ token, user }) {
+      if (user) {
+        const userPlan = await prisma.userPlan.findUnique({
+          where: { userId: user.id },
+        });
+        if (userPlan) {
+          token.planId = userPlan.id;
+          token.planType = userPlan.planType;
+          token.credits = userPlan.credits;
+          token.lastResetDate = userPlan.lastResetDate;
+          token.nextResetDate = userPlan.nextResetDate;
+          token.subscriptionDate = userPlan.subscriptionDate;
+          token.isServiceActive = userPlan.isServiceActive;
+        }
+      }
+      return token;
+    },
+    session({ session, token }) {
+      session.user.planId = token.planId;
+      session.user.planType = token.planType;
+      session.user.credits = token.credits;
+      session.user.lastResetDate = token.lastResetDate;
+      session.user.nextResetDate = token.nextResetDate;
+      session.user.subscriptionDate = token.subscriptionDate;
+      session.user.isServiceActive = token.isServiceActive;
+
       return session;
     },
 
+    //登录时检查用户是否存在
     async signIn({ user }) {
       // 确保 user.id 是 string 类型
       if (!user.id) {
