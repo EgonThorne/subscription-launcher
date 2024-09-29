@@ -1,76 +1,83 @@
 # AI Chat Subscription
 
-AI Chat Subscription 是一个基于 Next.js、Prisma 和 PostgreSQL 构建的智能聊天订阅系统。该项目提供了用户认证、聊天功能和订阅计划管理等功能。
+**Important Note: This project is a demo version. Its features and logic may be incomplete and it is intended for learning and reference purposes only.**
 
-## 功能特点
+AI Chat Subscription is an intelligent chat subscription system built with Next.js, Prisma, and PostgreSQL. The project provides user authentication, chat functionality, and subscription plan management.
 
-- 用户认证和授权（使用 NextAuth.js）
-- 与 OpenAI API 集成的智能聊天功能
-- 用户订阅计划管理（免费和高级计划）
-- 积分系统和自动重置机制
-- 响应式 UI 设计
+## Features
 
-## 技术栈
+- User authentication and authorization (using NextAuth.js)
+- Intelligent chat functionality integrated with OpenAI API
+- User subscription plan management (Free and Premium plans)
+- Credit system with automatic reset mechanism
+- Responsive UI design
 
-- [Next.js](https://nextjs.org/) - React 框架
-- [Prisma](https://www.prisma.io/) - 数据库 ORM
-- [PostgreSQL](https://www.postgresql.org/) - 数据库
-- [NextAuth.js](https://next-auth.js.org/) - 认证解决方案
-- [Tailwind CSS](https://tailwindcss.com/) - CSS 框架
-- [OpenAI API](https://openai.com/blog/openai-api) - AI 聊天功能
+## Tech Stack
 
-## 开始使用
+- [Next.js](https://nextjs.org/) - React framework
+- [Prisma](https://www.prisma.io/) - Database ORM
+- [PostgreSQL](https://www.postgresql.org/) - Database
+- [NextAuth.js](https://next-auth.js.org/) - Authentication solution
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [OpenAI API](https://openai.com/blog/openai-api) - AI chat functionality
 
-### 前提条件
+## Getting Started
+
+### Prerequisites
 
 - Node.js (v14+)
-- PostgreSQL 数据库
-- GitHub OAuth 应用（用于认证）
-- OpenAI API 密钥
+- PostgreSQL database
+- GitHub OAuth application (for authentication)
+- OpenAI API key
 
-### 安装
+### Installation
 
-1. 克隆仓库：
+1. Clone the repository:
 
    ```
    git clone https://github.com/your-username/ai-chat-subscription.git
    cd ai-chat-subscription
    ```
-2. 安装依赖：
+2. Install dependencies:
 
    ```
    npm install
    ```
-3. 设置环境变量：
-   复制 `.env.example` 文件并重命名为 `.env`，然后填写所有必要的环境变量。
-4. 设置数据库：
+3. Set up environment variables:
+   Copy the `.env.example` file and rename it to `.env`, then fill in all necessary environment variables.
+4. Set up the database:
 
    ```
    npx prisma migrate dev
    ```
-5. 运行开发服务器：
+5. Run the development server:
 
    ```
    npm run dev
    ```
 
-现在，您可以在 `http://localhost:3000` 访问应用程序。
+You can now access the application at `http://localhost:3000`.
 
-## 项目结构
+## Project Structure
 
-- `/app` - Next.js 13+ 应用路由
-- `/components` - React 组件
-- `/lib` - 工具函数和配置文件
-- `/prisma` - Prisma schema 和迁移文件
+- `/app` - Next.js 13+ app router
+- `/components` - React components
+- `/lib` - Utility functions and configuration files
+- `/prisma` - Prisma schema and migration files
 
-## 部署
+## Deployment
 
-本项目可以部署到任何支持 Next.js 的平台，如 Vercel 或 Netlify。确保在部署环境中设置所有必要的环境变量。
+This project can be deployed to any platform that supports Next.js, such as Vercel or Netlify. Ensure all necessary environment variables are set in the deployment environment.
 
-## 贡献
+## Contributing
 
-欢迎贡献！请查看 [CONTRIBUTING.md](CONTRIBUTING.md) 了解如何开始。
+Contributions are welcome! Please check out [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
 
-## 许可证
+## License
 
-本项目采用 MIT 许可证 - 查看 [LICENSE.md](LICENSE.md) 文件了解详情。
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+````
+
+This English version of the README maintains all the essential information while making it accessible to a broader, international audience. It clearly states at the top that this is a demo project intended for learning purposes, which helps set appropriate expectations for other developers who might come across this project.
+````
