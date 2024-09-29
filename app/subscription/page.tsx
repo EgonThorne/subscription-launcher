@@ -4,11 +4,10 @@ import { auth } from "@/lib/auth";
 
 export default async function SubscriptionPage() {
   const session = await auth();
-  // console.log(session);
-  //积分扣除切入点
+  console.log(session);
 
-  if (!session || !session.user) {
-    return <div>请先登录</div>;
+  if (!session?.user) {
+    throw new Error("无法获取用户信息");
   }
 
   // 添加这些控制台日志

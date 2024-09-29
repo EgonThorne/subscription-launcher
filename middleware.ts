@@ -5,12 +5,13 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
-  if (path === "/chatbot") {
+  const protectedRoutes = ["/chatbot", "/subscription"];
+
+  if (protectedRoutes.includes(path)) {
     const token = await getToken({
       req: request,
       secret: process.env.AUTH_SECRET!,
     });
-
     // 打印 token
     // console.log("Token:", JSON.stringify(token, null, 2));
 

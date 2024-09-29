@@ -10,26 +10,30 @@ import { DefaultJWT } from "next-auth/jwt";
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
-      planId: string;
+      id: string;
+      userId: string;
       planType: PlanType;
       credits: number;
       lastResetDate: Date | null;
       nextResetDate: Date;
       subscriptionDate: Date | null;
       isServiceActive: boolean;
+      lastUsageDate: Date | null;
     } & DefaultSession["user"];
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
-    planId: string;
+    id: string;
+    userId: string;
     planType: PlanType;
     credits: number;
     lastResetDate: Date | null;
     nextResetDate: Date;
     subscriptionDate: Date | null;
     isServiceActive: boolean;
+    lastUsageDate: Date | null;
   }
 }
 
@@ -48,25 +52,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           where: { userId: user.id },
         });
         if (userPlan) {
-          token.planId = userPlan.id;
+          token.id = userPlan.id;
+          token.userId = userPlan.userId;
           token.planType = userPlan.planType;
           token.credits = userPlan.credits;
           token.lastResetDate = userPlan.lastResetDate;
           token.nextResetDate = userPlan.nextResetDate;
           token.subscriptionDate = userPlan.subscriptionDate;
           token.isServiceActive = userPlan.isServiceActive;
+          token.lastUsageDate = userPlan.lastUsageDate;
         }
       }
       return token;
     },
     session({ session, token }) {
-      session.user.planId = token.planId;
+      session.user.id = token.id;
+      session.user.userId = token.userId;
       session.user.planType = token.planType;
       session.user.credits = token.credits;
       session.user.lastResetDate = token.lastResetDate;
       session.user.nextResetDate = token.nextResetDate;
       session.user.subscriptionDate = token.subscriptionDate;
       session.user.isServiceActive = token.isServiceActive;
+      session.user.lastUsageDate = token.lastUsageDate;
 
       return session;
     },
