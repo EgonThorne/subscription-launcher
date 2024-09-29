@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 
 export default async function SubscriptionPage() {
   const session = await auth();
-  console.log(session);
+  // console.log(session);
 
   if (!session?.user) {
     throw new Error("无法获取用户信息");
