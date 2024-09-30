@@ -5,20 +5,21 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
-  const protectedRoutes = ["/chatbot", "/subscription"];
+  const protectedRoutes = ["/chatbot", "/sub"];
 
   if (protectedRoutes.includes(path)) {
     const token = await getToken({
       req: request,
       secret: process.env.AUTH_SECRET!,
     });
-    // 打印 token
-    // console.log("Token:", JSON.stringify(token, null, 2));
 
     if (!token) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
   }
+
+  // const allCookies = request.cookies.getAll();
+  // console.log("All Cookies:", JSON.stringify(allCookies, null, 2));
 
   return NextResponse.next();
 }

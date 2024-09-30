@@ -62,15 +62,13 @@ model VerificationToken {
 }
 
 model UserPlan {
-  id               String   @id @default(cuid())
-  userId           String   @unique
-  planType         PlanType @default(FREE)
-  credits          Int      @default(200)
-  lastResetDate    DateTime @default(now())
-  nextResetDate    DateTime
-  subscriptionDate DateTime @default(now())
-  isServiceActive  Boolean  @default(true) // 新字段：表示服务是否处于活动状态
-  lastUsageDate    DateTime @default(now()) // 新字段：记录最后一次使用服务的日期
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  planType      PlanType @default(FREE)
+  credits       Int      @default(200)
+  subDate       DateTime @default(now())
+  nextResetDate DateTime
+  serviceStatus Boolean  @default(true)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
