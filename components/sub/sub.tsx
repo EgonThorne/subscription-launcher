@@ -1,19 +1,19 @@
+"use client";
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { PlanType } from "@prisma/client";
+import { useUserPlan } from "@/lib/hooks/useUserPlan";
 
-interface PlanSummaryProps {
-  planType: PlanType;
-  credits: number;
-  nextResetDate: Date;
-}
+const SubPlan: React.FC = () => {
+  const { userPlan, isLoading, isError } = useUserPlan();
 
-const PlanSummary: React.FC<PlanSummaryProps> = ({
-  planType,
-  credits,
-  nextResetDate,
-}) => {
+  if (isLoading) return <div>加载中...</div>;
+  if (isError) return <div>加载出错</div>;
+  if (!userPlan) return <div>未找到用户计划</div>;
+
+  const { planType, credits, nextResetDate } = userPlan;
   const totalCredits = 200; // 假设免费计划总是有200积分
   const pricePerMonth = planType === PlanType.FREE ? 0 : 10; // 假设高级计划每月10元
 
@@ -37,7 +37,7 @@ const PlanSummary: React.FC<PlanSummaryProps> = ({
       <div className="mb-4">
         <div className="flex justify-between items-center mb-2">
           <span className="text-lg font-medium">还剩{credits}积分 </span>
-          <span className="text-sm text-gray-500">{totalCredits}</span>
+          {/* <span className="text-sm text-gray-500">{totalCredits}</span> */}
         </div>
         <Progress value={(credits / totalCredits) * 100} className="h-2" />
       </div>
@@ -62,4 +62,4 @@ const PlanSummary: React.FC<PlanSummaryProps> = ({
   );
 };
 
-export default PlanSummary;
+export { SubPlan };

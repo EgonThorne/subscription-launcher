@@ -1,5 +1,19 @@
 import { createOpenAI } from "@ai-sdk/openai";
 import { streamText, convertToCoreMessages, StreamData } from "ai";
+import { prisma } from "@/lib/db";
+import { auth } from "@/lib/auth";
+
+async function update() {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (userId) {
+    await prisma.userPlan.update({
+      where: { userId: userId },
+      data: { credits: { decrement: 1 } },
+    });
+  }
+}
 
 const openai = createOpenAI({
   compatibility: "compatible",
@@ -11,6 +25,8 @@ export const maxDuration = 30;
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
+
+  await update();
 
   const data = new StreamData();
   data.append({ test: "value" });

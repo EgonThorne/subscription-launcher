@@ -23,7 +23,7 @@ const SideNavbar = () => {
           </PopoverTrigger>
           <PopoverContent>
             <div className="flex flex-col gap-2">
-              <Link href="/subscription">
+              <Link href="/sub">
                 <Button variant="ghost" className="w-full">
                   Billing
                 </Button>
