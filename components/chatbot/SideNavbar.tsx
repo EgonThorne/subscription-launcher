@@ -28,9 +28,11 @@ const SideNavbar = () => {
                   Billing
                 </Button>
               </Link>
-              <Button variant="ghost" className="w-full" disabled>
-                Pricing
-              </Button>
+              <Link href="/pricing">
+                <Button variant="ghost" className="w-full">
+                  Pricing
+                </Button>
+              </Link>
               <Button variant="ghost" className="w-full">
                 <SignOut />
               </Button>
