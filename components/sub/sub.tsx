@@ -14,7 +14,7 @@ const SubPlan: React.FC = () => {
   if (!userPlan) return <div>未找到用户计划</div>;
 
   const { planType, credits, nextResetDate } = userPlan;
-  const totalCredits = 200; // 假设免费计划总是有200积分
+  const totalCredits = planType === PlanType.FREE ? 200 : 1200; // 假设免费计划总是有200积分
   const pricePerMonth = planType === PlanType.FREE ? 0 : 10; // 假设高级计划每月10元
 
   const resetDate = new Date(nextResetDate);
@@ -26,38 +26,45 @@ const SubPlan: React.FC = () => {
   });
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">计划摘要</h2>
-        <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">
-          {planType === PlanType.FREE ? "免费计划" : "高级计划"}
-        </span>
-      </div>
+    <div className="flex space-x-5">
+      <div className="bg-white border w-[40vw] h-[35vh] rounded-lg shadow-sm p-6">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold">Program Summary</h2>
+          <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">
+            {planType === PlanType.FREE ? "Free Plan" : "Premium Plan"}
+          </span>
+        </div>
 
-      <div className="mb-4">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-lg font-medium">还剩{credits}积分 </span>
-          {/* <span className="text-sm text-gray-500">{totalCredits}</span> */}
+        <div className="mb-4">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-lg font-medium">
+              Remaining {credits} credits
+            </span>
+            {/* <span className="text-sm text-gray-500">{totalCredits}</span> */}
+          </div>
+          <Progress value={(credits / totalCredits) * 100} className="h-2" />
         </div>
-        <Progress value={(credits / totalCredits) * 100} className="h-2" />
-      </div>
 
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div>
-          <p className="text-sm text-gray-500">每月价格</p>
-          <p className="font-medium">${pricePerMonth}</p>
+        <div className="grid grid-cols-3 gap-4 mb-4">
+          <div>
+            <p className="text-sm text-gray-500">Price per month</p>
+            <p className="font-medium">${pricePerMonth}</p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-500">Included credits</p>
+            <p className="font-medium">{totalCredits}</p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-500">Update date</p>
+            <p className="font-medium">{formattedDate}</p>
+          </div>
         </div>
-        <div>
-          <p className="text-sm text-gray-500">包含积分</p>
-          <p className="font-medium">{totalCredits}</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-500">更新日期</p>
-          <p className="font-medium">{formattedDate}</p>
-        </div>
-      </div>
 
-      <Button className="w-full">升级</Button>
+        <Button className="w-full">Upgrade</Button>
+      </div>
+      <div className="bg-white border w-[40vw] h-[80vh] rounded-lg shadow-sm p-6">
+        <h2 className="text-xl font-semibold">Premium</h2>
+      </div>
     </div>
   );
 };

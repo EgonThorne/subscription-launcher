@@ -27,14 +27,16 @@ const Header = () => {
               </PopoverTrigger>
               <PopoverContent>
                 <div className="flex flex-col gap-2">
-                  <Link href="/subscription">
+                  <Link href="/sub">
                     <Button variant="ghost" className="w-full">
                       Billing
                     </Button>
                   </Link>
-                  <Button variant="ghost" className="w-full" disabled>
-                    Pricing
-                  </Button>
+                  <Link href="/pricing">
+                    <Button variant="ghost" className="w-full">
+                      Pricing
+                    </Button>
+                  </Link>
                   <Button variant="ghost" className="w-full">
                     <SignOut />
                   </Button>
